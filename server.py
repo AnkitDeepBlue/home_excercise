@@ -31,6 +31,7 @@ def add_employee(new_employee: Employee):
         content.update(temp)
     with open("entities.json", "w") as file:
         json.dump(content, file, indent=4)
+        return temp
 
 
 @app.get("/employees")
@@ -42,10 +43,15 @@ def get_employees() -> dict:
 
 @app.delete("/employees")
 def delete_employees(tgt: Demployee):
-    employees = get_employees()
-    del employees[tgt.name]
-    with open("entities.json", "w") as file:
-        json.dump(employees, file, indent=4)
+    try:
+        employees = get_employees()
+        del employees[tgt.name]
+        with open("entities.json", "w") as file:
+            json.dump(employees, file, indent=4)
+    except KeyError:
+        error_msz= 'Employee Not Found'
+        print(error_msz)
+    return tgt.name
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,0 +1,14 @@
+Issues/improvements -
+A: It was not generating the unique id always as it was limited by the range now modified to generate a unique one always
+B: I have added logic into ‘add_employee’ schema and made it more robust i.e reading the given payload first and then dump into Json object
+C: Added separate schema for delete functionality to avoid any potential errors
+D: Added error handling into delete functionality as well as made proper indentation into the same
+e: added test logic into given test cases as well as added new one
+f: Added pytest parameterization into the test cases
+
+Note: I tried to give me best in this sort spare of time to make it more beautiful and more meaningful, though there is always space of
+improvements so will be in my case too, I am from QA background and tried best to fix the issues as well as writing the test cases.
+Hope you will take this too in consideration.
+
+Thank you,
+Ankit
