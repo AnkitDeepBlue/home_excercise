@@ -4,42 +4,48 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 app = FastAPI()
 
 
 class Employee(BaseModel):
     name: str
-    id: int
+    salary: int
     title: str
 
 
-class Developer(Employee):
-    title = "Developer"
+class Demployee(BaseModel):
+    name: str
 
 
 @app.post("/employees")
-def add_employee(name: str, title: str, salary: int):
-    with open("entities.json", "w") as file:
+def add_employee(new_employee: Employee):
+    # Generating unique id
+    idlist = random.sample(range(1, 1000), 999)
+    n = 0
+    id = idlist[n]
+    n = n + 1
+    # reading json data and updating with new employee
+    with open("entities.json", "r+") as file:
         content = json.load(file)
-        id = random.randint(1, 1000)
-        content[name] = {"title": title, "salary": salary, "id": id}
-    
+        temp = {new_employee.name: {"id": id, "title": new_employee.title, "salary": new_employee.salary}}
+        content.update(temp)
+    with open("entities.json", "w") as file:
+        json.dump(content, file, indent=4)
+
 
 @app.get("/employees")
-def get_employees(filter: str) -> dict:
+def get_employees() -> dict:
     with open("entities.json", "r") as file:
         content = json.load(file)
     return content
 
 
 @app.delete("/employees")
-def delete_employees(name: str):
+def delete_employees(tgt: Demployee):
     employees = get_employees()
-    del employees[name]
+    del employees[tgt.name]
     with open("entities.json", "w") as file:
-        json.dump(employees, file)
-    
+        json.dump(employees, file, indent=4)
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
