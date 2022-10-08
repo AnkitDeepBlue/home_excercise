@@ -21,9 +21,6 @@ def test_add_multiple_employees(name, title, salary):
         assert response.status_code == 200
         assert response.json()[name]['title'] == title
         assert response.json()[name]['salary'] == salary
-        my_id = response.json()[name]['id']
-        print(my_id)
-
 
 def test_add_single_employee():
     response = client.post(
@@ -47,7 +44,7 @@ def test_delete_inexistent_employee():
         }
     )
     assert response.status_code == 200
-    # In case name does not found over server we designed that it throws name back into the response, checking the same at below:
+    # In that case name does not found over server, I designed that it throws name back into the response, validating the same at below:
     assert response.json() == 'zzzzz'
 
 
@@ -80,8 +77,7 @@ def test_add_employee_with_no_data():
     )
     assert response.status_code == 422
 
-
 def test_get_all_employees():
     response = client.get("/employees")
     assert response.status_code == 200
-    print(response.content)
+    print(f"Response contents are- {response.content}")
